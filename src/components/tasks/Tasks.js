@@ -47,8 +47,7 @@ const Tasks = () => {
     };
 
     const [values, setValues] = useState({
-        title: "",
-        description: "",
+        Title: "",
         priority: ""
     });
 
@@ -70,10 +69,9 @@ const Tasks = () => {
         <div style={modalStyle} className={classes.paper}>
             <h3 id="simple-modal-title">Tasks Information</h3>
             <form onSubmit={handleSubmit} className={classes.root} noValidate autoComplete="off">
-                <TextField name="title" onChange={handleChange} label="Task" required />
-                <TextField name="description" onChange={handleChange} label="Description" required />
-                <TextField name="priority" onChange={handleChange} label="Priority" required />
-                <Button type="submit" style={{ marginTop: "10px" }} variant="outlined" color="primary">
+                <TextField name="Title" onBlur={handleChange} label="Title" required />
+                <TextField name="Priority" onBlur={handleChange} label="Priority" required />
+                <Button type="submit" style={{ marginTop: "10px" }} variant="outlined" color="primary" display="block">
                     Submit
                 </Button>
             </form>
@@ -84,25 +82,13 @@ const Tasks = () => {
     useEffect(() => {
         const fakeData = [
             {
-                title: "First Task",
-                description: "This is Task Description",
-                priority: "Low"
+                Title: "First Task",
+                Priority: "Low"
             },
             {
-                title: "Second Task",
-                description: "This is Task Description",
-                priority: "Medium"
-            },
-            {
-                title: "Third Task",
-                description: "This is Task Description",
-                priority: "Low"
-            },
-            {
-                title: "Fourth Task",
-                description: "This is Task Description",
-                priority: "High"
-            },
+                Title: "Second Task",
+                Priority: "Medium"
+            }
         ];
         setTasks(fakeData);
     }, []);
