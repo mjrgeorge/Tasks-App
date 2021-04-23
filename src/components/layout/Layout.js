@@ -1,10 +1,15 @@
+import { Container } from '@material-ui/core';
 import React from 'react';
+import Footer from './Footer';
+import Header from './Header';
 
-const Layout = () => {
+const Layout = (props) => {
     return (
-        <div>
-            <h1>This is Layout Component.</h1>
-        </div>
+        <Container fixed>
+            <Header />
+            {props.children}
+            <Footer />
+        </Container>
     );
 };
 
