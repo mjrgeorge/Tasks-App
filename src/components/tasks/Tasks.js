@@ -72,12 +72,16 @@ const Tasks = () => {
     };
 
     const handleClose = () => {
+        const taskData = tasks;
+        taskData.push(values);
+        setTasks(taskData);
+
         setOpen(false);
     };
 
     const [values, setValues] = useState({
-        id: 100,
-            task: "",
+            id: 100,
+            title: "",
             description: "",
             priority: ""
     });
@@ -92,7 +96,7 @@ const Tasks = () => {
         <div style={modalStyle} className={classes.paper}>
             <h2 id="simple-modal-title">Information</h2>
             <form className={classes.root} noValidate autoComplete="off">
-                <TextField name="task" onChange={handleChange} label="Task" required />
+                <TextField name="title" onChange={handleChange} label="Task" required />
                 <TextField name="description" onChange={handleChange} label="Description" required />
                 <TextField name="priority" onChange={handleChange} label="Priority" required />
             </form>
@@ -131,7 +135,7 @@ const Tasks = () => {
             },
         ];
         setTasks(fakeData);
-    }, [])
+    }, []);
 
     return (
         <Container fixed>
