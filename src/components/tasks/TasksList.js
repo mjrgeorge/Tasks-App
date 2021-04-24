@@ -43,6 +43,8 @@ const TasksList = ({tasks}) => {
                 <Table className={classes.table}>
                     <TableHead>
                         <TableRow>
+                            <StyledTableCell align="center">#</StyledTableCell>
+                            <StyledTableCell align="center">ID</StyledTableCell>
                             <StyledTableCell align="center">Task Title</StyledTableCell>
                             <StyledTableCell align="center">Priority</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
@@ -51,9 +53,9 @@ const TasksList = ({tasks}) => {
                     <TableBody>
                         {tasks.map((task, index) => (
                             <StyledTableRow key={index}>
-                                <StyledTableCell align="center" component="th" scope="row">
-                                    {task.Title}
-                                </StyledTableCell>
+                                <StyledTableCell align="center">{index+1}</StyledTableCell>
+                                <StyledTableCell align="center">{task._id}</StyledTableCell>
+                                <StyledTableCell align="center" component="th" scope="row"> {task.Title} </StyledTableCell>
                                 <StyledTableCell align="center">{task.Priority}</StyledTableCell>
                                 <StyledTableCell align="center">
                                     <IconButton color="primary">

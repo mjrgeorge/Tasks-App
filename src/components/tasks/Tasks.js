@@ -5,6 +5,7 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
 import TasksList from './TasksList';
+import { getTasksData, storeTasksData } from '../../services/TasksServices';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -48,7 +49,7 @@ const Tasks = () => {
 
     const [values, setValues] = useState({
         Title: "",
-        priority: ""
+        Priority: ""
     });
 
     const handleChange = (e) => {
@@ -57,41 +58,49 @@ const Tasks = () => {
         setValues(newValues);
     };
 
-    const handleSubmit = () => {
-        const taskData = tasks;
-        taskData.push(values);
-        setTasks(taskData);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-        handleClose();
+        let isAdded = false;
+        if (values.Title.length === 0 || values.Priority.length === 0) {
+            alert("Input Field is Empty!")
+        } else {
+            isAdded = await storeTasksData(values);
+            if (isAdded) {
+                handleClose();
+                setValues({
+                    Title: "",
+                    Priority: ""
+                })
+            }
+        }
+    };
+
+    const [tasks, setTasks] = useState([]);
+
+    useEffect(() => {
+        initializeData();
+    }, [tasks]);
+
+    const initializeData = async () => {
+        const data = await getTasksData();
+        setTasks(data);
     };
 
     const body = (
         <div style={modalStyle} className={classes.paper}>
-            <h3 id="simple-modal-title">Tasks Information</h3>
+            <h3 align="right">
+                <span style={{ cursor: "pointer", color: "red" }} onClick={handleClose}>X</span>
+            </h3>
             <form onSubmit={handleSubmit} className={classes.root} noValidate autoComplete="off">
                 <TextField name="Title" onBlur={handleChange} label="Title" required />
                 <TextField name="Priority" onBlur={handleChange} label="Priority" required />
-                <Button type="submit" style={{ marginTop: "10px" }} variant="outlined" color="primary" display="block">
+                <Button type="submit" style={{ marginTop: "10px" }} variant="outlined" color="primary">
                     Submit
                 </Button>
             </form>
         </div>
     );
-
-    const [tasks, setTasks] = useState([]);
-    useEffect(() => {
-        const fakeData = [
-            {
-                Title: "First Task",
-                Priority: "Low"
-            },
-            {
-                Title: "Second Task",
-                Priority: "Medium"
-            }
-        ];
-        setTasks(fakeData);
-    }, []);
 
     return (
         <>
