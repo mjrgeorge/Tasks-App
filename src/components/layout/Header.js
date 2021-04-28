@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -19,8 +20,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+
 const Header = () => {
     const classes = useStyles();
+    
+    const tasks = useSelector(state => state.tasks);
+    const counter = useSelector(state=>state.counter);
 
     return (
         <div>
@@ -32,7 +37,8 @@ const Header = () => {
                     <Typography variant="h6" className={classes.title}>
                         mjrgeorge
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    <Button color="inherit">Counter Value: {counter}</Button>
+                    <Button color="inherit">Total Tasks: {tasks.length}</Button>
                 </Toolbar>
             </AppBar>
         </div>

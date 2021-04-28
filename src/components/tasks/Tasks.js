@@ -6,6 +6,7 @@ import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
 import TasksList from './TasksList';
 import { getTasksData, storeTasksData } from '../../services/TasksServices';
+import { useDispatch, useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -58,25 +59,25 @@ const Tasks = () => {
         setValues(newValues);
     };
 
+    const dispatch = useDispatch();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        let isAdded = false;
-        if (values.Title.length === 0 || values.Priority.length === 0) {
-            alert("Input Field is Empty!")
+        if (values.Priority.length === 0 || values.Title.length === 0) {
+            alert("Input Field Empty!")
         } else {
-            isAdded = await storeTasksData(values);
+            const isAdded = await storeTasksData(values);
             if (isAdded) {
                 handleClose();
                 setValues({
                     Title: "",
                     Priority: ""
-                })
+                });
             }
         }
     };
 
-    const [tasks, setTasks] = useState([]);
+    const tasks = useSelector(state => state.tasks);
 
     useEffect(() => {
         initializeData();
@@ -84,7 +85,9 @@ const Tasks = () => {
 
     const initializeData = async () => {
         const data = await getTasksData();
-        setTasks(data);
+        data.sort();
+        data.reverse();
+        dispatch({ type: "GET_INITIAL_DATA", payload: data });
     };
 
     const body = (
@@ -106,7 +109,7 @@ const Tasks = () => {
         <>
             <Box display="flex">
                 <Box width="100%" p={1}>
-                    <Typography variant="h4" color="secondary">My Tasks</Typography>
+                    <Typography variant="h5" color="secondary">My Tasks List</Typography>
                 </Box>
                 <Box p={1}>
                     <IconButton aria-label="delete" color="secondary" onClick={handleOpen}>
