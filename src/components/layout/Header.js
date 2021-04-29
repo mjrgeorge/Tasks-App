@@ -23,9 +23,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = () => {
     const classes = useStyles();
-    
+
+    const counter = useSelector(state => state.counter);
     const tasks = useSelector(state => state.tasks);
-    const counter = useSelector(state=>state.counter);
 
     return (
         <div>

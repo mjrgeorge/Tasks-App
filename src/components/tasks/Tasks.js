@@ -5,8 +5,9 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
 import TasksList from './TasksList';
-import { getTasksData, storeTasksData } from '../../services/TasksServices';
+import { storeTasksData } from '../../services/TasksServices';
 import { useDispatch, useSelector } from 'react-redux';
+import { getTaskDatAction } from '../../redux/actions/TaskAction';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -80,15 +81,9 @@ const Tasks = () => {
     const tasks = useSelector(state => state.tasks);
 
     useEffect(() => {
-        initializeData();
+        dispatch(getTaskDatAction());
     }, [tasks]);
 
-    const initializeData = async () => {
-        const data = await getTasksData();
-        data.sort();
-        data.reverse();
-        dispatch({ type: "GET_INITIAL_DATA", payload: data });
-    };
 
     const body = (
         <div style={modalStyle} className={classes.paper}>

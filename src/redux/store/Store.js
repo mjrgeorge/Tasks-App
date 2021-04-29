@@ -1,8 +1,21 @@
-import { createStore } from "redux";
-import counterReducer from "../reducers/CounterReducer";
+import { applyMiddleware, createStore } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-let Store = createStore(
+import counterReducer from '../reducers/CounterReducer';
+
+const middlewares = [thunkMiddleware]
+const middlewareEnhancer = applyMiddleware(...middlewares)
+
+const enhancers = [middlewareEnhancer]
+const composedEnhancers = composeWithDevTools(...enhancers)
+
+
+export default function Store(previousState) {
+  const store = createStore(
     counterReducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
-export default Store;
+    previousState,
+    composedEnhancers,
+  );
+  return store;
+};
