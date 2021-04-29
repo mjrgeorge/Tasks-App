@@ -5,9 +5,8 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
 import TasksList from './TasksList';
-import { storeTasksData } from '../../services/TasksServices';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTaskDatAction } from '../../redux/actions/TaskAction';
+import { getTaskDatAction, storeTaskDataAction } from '../../redux/actions/TaskAction';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -67,14 +66,12 @@ const Tasks = () => {
         if (values.Priority.length === 0 || values.Title.length === 0) {
             alert("Input Field Empty!")
         } else {
-            const isAdded = await storeTasksData(values);
-            if (isAdded) {
-                handleClose();
-                setValues({
-                    Title: "",
-                    Priority: ""
-                });
-            }
+            dispatch(storeTaskDataAction(values));
+            handleClose();
+            setValues({
+                Title: "",
+                Priority: ""
+            });
         }
     };
 

@@ -1,3 +1,4 @@
+import * as Types from "../type/Types";
 
 const initialState = {
     counter: 0,
@@ -33,14 +34,14 @@ const counterReducer = (state = initialState, action) => {
             }
             break;
 
-        case "GET_INITIAL_DATA":
+        case Types.GET_INITIAL_DATA:
             return {
                 ...state,
                 tasks: action.payload
             }
             break;
 
-        case "NEW_TASK_ADD":
+        case Types.NEW_TASK_ADD:
             return {
                 ...state,
                 tasks: [action.payload, ...state.tasks]
