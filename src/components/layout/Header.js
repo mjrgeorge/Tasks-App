@@ -24,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
 const Header = () => {
     const classes = useStyles();
 
-    const counter = useSelector(state => state.counter);
-    const tasks = useSelector(state => state.tasks);
+    const counter = useSelector(state => state.CounterReducer.counter);
+    const tasks = useSelector(state => state.TaskReducer.tasks);
 
     return (
         <div>
@@ -37,8 +37,8 @@ const Header = () => {
                     <Typography variant="h6" className={classes.title}>
                         mjrgeorge
                     </Typography>
-                    <Button color="inherit">Counter Value: {counter}</Button>
-                    <Button color="inherit">Total Tasks: {tasks.length}</Button>
+                    <Button variant="contained" color="primary">Counter Value: {counter}</Button>
+                    <Button variant="contained" color="secondary">Total Tasks: {tasks.length}</Button>
                 </Toolbar>
             </AppBar>
         </div>

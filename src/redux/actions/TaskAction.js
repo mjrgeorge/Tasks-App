@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as Types from "../type/Types";
 
-export const getTaskDatAction = () => (dispatch) => {
+export const getTaskDataAction = () => (dispatch) => {
     axios.get("https://todo-app37.herokuapp.com/loadTodo")
         .then(response => {
             const data = response.data;

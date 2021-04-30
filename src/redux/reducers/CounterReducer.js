@@ -1,26 +1,20 @@
-import * as Types from "../type/Types";
+import { DECREMENT, INCREMENT } from "../type/Types";
 
 const initialState = {
     counter: 0,
-    tasks: []
 };
 
-const counterReducer = (state = initialState, action) => {
+const CounterReducer = (state = initialState, action) => {
     switch (action.type) {
-        case "GET-COUNTER":
-            return {
-                ...state,
-            }
-            break;
 
-        case "INCREMENT":
+        case INCREMENT:
             return {
                 ...state,
                 counter: state.counter + 1
             }
             break;
 
-        case "DECREMENT":
+        case DECREMENT:
             return {
                 ...state,
                 counter: state.counter - 1
@@ -34,23 +28,9 @@ const counterReducer = (state = initialState, action) => {
             }
             break;
 
-        case Types.GET_INITIAL_DATA:
-            return {
-                ...state,
-                tasks: action.payload
-            }
-            break;
-
-        case Types.NEW_TASK_ADD:
-            return {
-                ...state,
-                tasks: [action.payload, ...state.tasks]
-            }
-            break;
-
         default:
             break;
     }
     return state;
 };
-export default counterReducer;
+export default CounterReducer;

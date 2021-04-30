@@ -6,7 +6,7 @@ import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
 import TasksList from './TasksList';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTaskDatAction, storeTaskDataAction } from '../../redux/actions/TaskAction';
+import { getTaskDataAction, storeTaskDataAction } from '../../redux/actions/TaskAction';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -75,10 +75,10 @@ const Tasks = () => {
         }
     };
 
-    const tasks = useSelector(state => state.tasks);
+    const tasks = useSelector(state => state.TaskReducer.tasks);
 
     useEffect(() => {
-        dispatch(getTaskDatAction());
+        dispatch(getTaskDataAction());
     }, [tasks]);
 
 
