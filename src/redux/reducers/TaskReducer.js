@@ -1,6 +1,10 @@
-import * as Types from "../type/Types";
+import * as Types from "../types/Types";
 const initialState = {
-    tasks: []
+    tasks: [],
+    tasksForm: {
+        Title: "",
+        Priority: ""
+    }
 };
 
 function TaskReducer(state = initialState, action) {
@@ -17,6 +21,15 @@ function TaskReducer(state = initialState, action) {
             return {
                 ...state,
                 state: [action.payload, ...state.tasks]
+            }
+            break;
+
+        case Types.CHANGE_TASK_INPUT:
+            const tasksForm = { ...state.tasksForm };
+            tasksForm[action.payload.name] = action.payload.value;
+            return {
+                ...state,
+                tasksForm
             }
             break;
 

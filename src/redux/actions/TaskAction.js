@@ -1,5 +1,5 @@
 import axios from "axios";
-import * as Types from "../type/Types";
+import * as Types from "../types/Types";
 
 export const getTaskDataAction = () => (dispatch) => {
     axios.get("https://todo-app37.herokuapp.com/loadTodo")
@@ -12,8 +12,21 @@ export const getTaskDataAction = () => (dispatch) => {
 };
 
 export const storeTaskDataAction = (taskItem) => (dispatch) => {
-    axios.post("https://todo-app37.herokuapp.com/addTodo", taskItem)
-        .then(() => {
-            dispatch({ type: Types.NEW_TASK_ADD, payload: taskItem });
-        })
+    if (taskItem.Title.length === 0 || taskItem.Priority.length === 0) {
+        alert("Empty Your TextField");
+    } else {
+        axios.post("https://todo-app37.herokuapp.com/addTodo", taskItem)
+            .then(() => {
+                dispatch({ type: Types.NEW_TASK_ADD, payload: taskItem });
+            })
+    }
 };
+
+export const handleTextChangeAction = (name, value) => (dispatch) => {
+    const formData = {
+        name: name,
+        value: value
+    }
+    dispatch({ type: Types.CHANGE_TASK_INPUT, payload: formData })
+};
+

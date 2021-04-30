@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, TextField } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { DECREMENT, INCREMENT } from '../../redux/type/Types';
+import { DECREMENT, INCREMENT } from '../../redux/types/Types';
 
 const CounterComponent = () => {
     const counter = useSelector(state => state.CounterReducer.counter);
@@ -10,6 +10,7 @@ const CounterComponent = () => {
 
     const handleClick = () => {
         dispatch({ type: "UPDATE", payload: val });
+        setVal("");
     };
 
     return (

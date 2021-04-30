@@ -6,3 +6,4 @@ export const UPDATE = "UPDATE";
 //tasksReducer types
 export const GET_INITIAL_DATA = "GET_INITIAL_DATA";
 export const NEW_TASK_ADD = "NEW_TASK_ADD";
+export const CHANGE_TASK_INPUT = "CHANGE_TASK_INPUT";

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, Typography } from '@material-ui/core';
+import { Box, Button, FormControl, FormHelperText, IconButton, InputLabel, MenuItem, Select, Typography } from '@material-ui/core';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
 import TasksList from './TasksList';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTaskDataAction, storeTaskDataAction } from '../../redux/actions/TaskAction';
+import { getTaskDataAction, handleTextChangeAction, storeTaskDataAction } from '../../redux/actions/TaskAction';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -52,39 +52,25 @@ const Tasks = () => {
         setOpen(false);
     };
 
-    const [values, setValues] = useState({
-        Title: "",
-        Priority: ""
-    });
-
-    const handleChange = (e) => {
-        const newValues = { ...values };
-        newValues[e.target.name] = e.target.value;
-        setValues(newValues);
-    };
-
     const dispatch = useDispatch();
+    const tasks = useSelector(state => state.TaskReducer.tasks);
+    const tasksForm = useSelector(state => state.TaskReducer.tasksForm);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (values.Priority.length === 0 || values.Title.length === 0) {
-            alert("Input Field Empty!")
-        } else {
-            dispatch(storeTaskDataAction(values));
-            handleClose();
-            setValues({
-                Title: "",
-                Priority: ""
-            });
-        }
+    const handleChange = (name, value) => {
+        dispatch(handleTextChangeAction(name, value));
     };
 
-    const tasks = useSelector(state => state.TaskReducer.tasks);
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(storeTaskDataAction(tasksForm));
+        tasksForm.Title = "";
+        tasksForm.Priority = "";
+        handleClose();
+    };
 
     useEffect(() => {
         dispatch(getTaskDataAction());
     }, [tasks]);
-
 
     const body = (
         <div style={modalStyle} className={classes.paper}>
@@ -93,14 +79,20 @@ const Tasks = () => {
             </h3>
             <form onSubmit={handleSubmit} className={classes.root} noValidate autoComplete="off">
                 <FormControl className={classes.formControl}>
-                    <TextField name="Title" value={values.Title} onChange={handleChange} label="Title" required />
+                    <TextField
+                        name="Title"
+                        value={tasksForm.Title}
+                        onChange={(e) => handleChange(e.target.name, e.target.value)}
+                        label="Title"
+                        required
+                    />
                 </FormControl>
                 <FormControl className={classes.formControl}>
-                    <InputLabel id="demo-controlled-open-select-label">Priority</InputLabel>
+                    <InputLabel>Priority</InputLabel>
                     <Select
                         name="Priority"
-                        value={values.Priority}
-                        onChange={handleChange}
+                        value={tasksForm.Priority}
+                        onChange={(e) => handleChange(e.target.name, e.target.value)}
                     >
                         <MenuItem value={"High"}>High</MenuItem>
                         <MenuItem value={"Medium"}>Medium</MenuItem>
