@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, Button, IconButton, Typography } from '@material-ui/core';
+import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, Typography } from '@material-ui/core';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
@@ -16,6 +16,10 @@ const useStyles = makeStyles((theme) => ({
         border: '2px solid #000',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
     },
 }));
 
@@ -88,8 +92,21 @@ const Tasks = () => {
                 <span style={{ cursor: "pointer", color: "red" }} onClick={handleClose}>X</span>
             </h3>
             <form onSubmit={handleSubmit} className={classes.root} noValidate autoComplete="off">
-                <TextField name="Title" onBlur={handleChange} label="Title" required />
-                <TextField name="Priority" onBlur={handleChange} label="Priority" required />
+                <FormControl className={classes.formControl}>
+                    <TextField name="Title" value={values.Title} onChange={handleChange} label="Title" required />
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                    <InputLabel id="demo-controlled-open-select-label">Priority</InputLabel>
+                    <Select
+                        name="Priority"
+                        value={values.Priority}
+                        onChange={handleChange}
+                    >
+                        <MenuItem value={"High"}>High</MenuItem>
+                        <MenuItem value={"Medium"}>Medium</MenuItem>
+                        <MenuItem value={"Low"}>Low</MenuItem>
+                    </Select>
+                </FormControl>
                 <Button type="submit" style={{ marginTop: "10px" }} variant="outlined" color="primary">
                     Submit
                 </Button>

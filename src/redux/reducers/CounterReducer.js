@@ -24,7 +24,7 @@ const CounterReducer = (state = initialState, action) => {
         case "UPDATE":
             return {
                 ...state,
-                counter: state.counter + parseInt(action.payload)
+                counter: state.counter + parseInt(action.payload),
             }
             break;
 
