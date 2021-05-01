@@ -11,6 +11,14 @@ export const getTaskDataAction = () => (dispatch) => {
         })
 };
 
+export const getSingleTaskDataAction = (id) => (dispatch) => {
+    axios.get(`https://todo-app37.herokuapp.com/deleteTodo?id=${id}`)
+        .then(response => {
+            const data = response.data;
+            dispatch({ type: Types.GET_SINGLE_DATA, payload: data });
+        })
+};
+
 export const storeTaskDataAction = (taskItem) => (dispatch) => {
     if (taskItem.Title.length === 0 || taskItem.Priority.length === 0) {
         alert("Empty Your TextField");
@@ -30,3 +38,21 @@ export const handleTextChangeAction = (name, value) => (dispatch) => {
     dispatch({ type: Types.CHANGE_TASK_INPUT, payload: formData })
 };
 
+export const updateTaskDataAction = (id, taskItem) => (dispatch) => {
+    console.log('taskItem, id :>> ', taskItem, id);
+    axios.patch(`https://todo-app37.herokuapp.com/updateTodo?id=${id}`, taskItem)
+        .then(response => {
+            if(response.data.modifiedCount){
+                alert("Task Successfully Updated")
+            }
+        })
+};
+
+export const deleteTaskDataAction = (id) => (dispatch) => {
+    axios.delete(`https://todo-app37.herokuapp.com/deleteTodo?id=${id}`)
+        .then(response => {
+            if(response.data.deletedCount){
+                alert("Successfully Task Deleted")
+            }
+        })
+};

@@ -9,6 +9,8 @@ import TableRow from '@material-ui/core/TableRow';
 import { IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
+import { useDispatch } from 'react-redux';
+import { deleteTaskDataAction, updateTaskDataAction } from '../../redux/actions/TaskAction';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -34,8 +36,22 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const TasksList = ({tasks}) => {
+
+const TasksList = ({ tasks }) => {
     const classes = useStyles();
+
+    const dispatch = useDispatch();
+
+    const handleUpdate = (id) => {
+        const taskItem = {
+            Title: "George",
+            Priority: "Runa"
+        }
+        dispatch(updateTaskDataAction(id, taskItem))
+    };
+    const handleDelete = (id) => {
+        dispatch(deleteTaskDataAction(id));
+    };
 
     return (
         <>
@@ -53,15 +69,15 @@ const TasksList = ({tasks}) => {
                     <TableBody>
                         {tasks.map((task, index) => (
                             <StyledTableRow key={index}>
-                                <StyledTableCell align="center">{index+1}</StyledTableCell>
+                                <StyledTableCell align="center">{index + 1}</StyledTableCell>
                                 <StyledTableCell align="center">{task._id}</StyledTableCell>
                                 <StyledTableCell align="center" component="th" scope="row"> {task.Title} </StyledTableCell>
                                 <StyledTableCell align="center">{task.Priority}</StyledTableCell>
                                 <StyledTableCell align="center">
-                                    <IconButton color="primary">
+                                    <IconButton onClick={() => handleUpdate(`${task._id}`)} color="primary">
                                         <CreateIcon />
                                     </IconButton>
-                                    <IconButton color="secondary">
+                                    <IconButton onClick={() => handleDelete(`${task._id}`)} color="secondary">
                                         <DeleteIcon />
                                     </IconButton>
                                 </StyledTableCell>

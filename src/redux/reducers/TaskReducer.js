@@ -2,6 +2,7 @@ import * as Types from "../types/Types";
 const initialState = {
     tasks: [],
     tasksForm: {
+        _id: null,
         Title: "",
         Priority: ""
     }
@@ -14,6 +15,13 @@ function TaskReducer(state = initialState, action) {
             return {
                 ...state,
                 tasks: action.payload
+            }
+            break;
+
+        case Types.GET_SINGLE_DATA:
+            return {
+                ...state,
+                tasksForm: action.payload
             }
             break;
 
