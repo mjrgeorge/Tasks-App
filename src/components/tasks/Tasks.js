@@ -63,8 +63,6 @@ const Tasks = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(storeTaskDataAction(tasksForm));
-        tasksForm.Title = "";
-        tasksForm.Priority = "";
         handleClose();
     };
 

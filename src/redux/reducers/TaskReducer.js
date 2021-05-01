@@ -20,7 +20,11 @@ function TaskReducer(state = initialState, action) {
         case Types.NEW_TASK_ADD:
             return {
                 ...state,
-                state: [action.payload, ...state.tasks]
+                state: [action.payload, ...state.tasks],
+                tasksForm: {
+                    Title: "",
+                    Priority: ""
+                }
             }
             break;
 
