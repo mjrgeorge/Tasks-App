@@ -12,7 +12,7 @@ export const getTaskDataAction = () => (dispatch) => {
 };
 
 export const getSingleTaskDataAction = (id) => (dispatch) => {
-    axios.get(`https://todo-app37.herokuapp.com/deleteTodo?id=${id}`)
+    axios.get(`https://todo-app37.herokuapp.com/singleTodo?id=${id}`)
         .then(response => {
             const data = response.data;
             dispatch({ type: Types.GET_SINGLE_DATA, payload: data });
@@ -30,6 +30,14 @@ export const storeTaskDataAction = (taskItem) => (dispatch) => {
     }
 };
 
+export const handleEditTextChangeAction = (name, value) => (dispatch) => {
+    const formData = {
+        name: name,
+        value: value
+    }
+    dispatch({ type: Types.CHANGE_EDIT_TASK_INPUT, payload: formData })
+};
+
 export const handleTextChangeAction = (name, value) => (dispatch) => {
     const formData = {
         name: name,
@@ -38,9 +46,8 @@ export const handleTextChangeAction = (name, value) => (dispatch) => {
     dispatch({ type: Types.CHANGE_TASK_INPUT, payload: formData })
 };
 
-export const updateTaskDataAction = (id, taskItem) => (dispatch) => {
-    console.log('taskItem, id :>> ', taskItem, id);
-    axios.patch(`https://todo-app37.herokuapp.com/updateTodo?id=${id}`, taskItem)
+export const updateTaskDataAction = (id, tasksForm) => (dispatch) => {
+    axios.patch(`https://todo-app37.herokuapp.com/updateTodo?id=${id}`, tasksForm)
         .then(response => {
             if(response.data.modifiedCount){
                 alert("Task Successfully Updated")

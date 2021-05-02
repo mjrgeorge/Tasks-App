@@ -8,9 +8,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import CreateIcon from '@material-ui/icons/Create';
 import { useDispatch } from 'react-redux';
-import { deleteTaskDataAction, updateTaskDataAction } from '../../redux/actions/TaskAction';
+import { deleteTaskDataAction, getSingleTaskDataAction } from '../../redux/actions/TaskAction';
+import ModalForm from './ModalForm';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -43,12 +43,9 @@ const TasksList = ({ tasks }) => {
     const dispatch = useDispatch();
 
     const handleUpdate = (id) => {
-        const taskItem = {
-            Title: "George",
-            Priority: "Runa"
-        }
-        dispatch(updateTaskDataAction(id, taskItem))
+        dispatch(getSingleTaskDataAction(id));
     };
+
     const handleDelete = (id) => {
         dispatch(deleteTaskDataAction(id));
     };
@@ -74,8 +71,8 @@ const TasksList = ({ tasks }) => {
                                 <StyledTableCell align="center" component="th" scope="row"> {task.Title} </StyledTableCell>
                                 <StyledTableCell align="center">{task.Priority}</StyledTableCell>
                                 <StyledTableCell align="center">
-                                    <IconButton onClick={() => handleUpdate(`${task._id}`)} color="primary">
-                                        <CreateIcon />
+                                    <IconButton onClick={() =>handleUpdate(`${task._id}`)} color="primary">
+                                        <ModalForm />
                                     </IconButton>
                                     <IconButton onClick={() => handleDelete(`${task._id}`)} color="secondary">
                                         <DeleteIcon />

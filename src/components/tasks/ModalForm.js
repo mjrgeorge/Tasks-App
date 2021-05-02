@@ -1,27 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, Typography } from '@material-ui/core';
-import AddBoxIcon from '@material-ui/icons/AddBox';
 import Modal from '@material-ui/core/Modal';
-import TextField from '@material-ui/core/TextField';
-import TasksList from './TasksList';
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
+import CreateIcon from '@material-ui/icons/Create';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTaskDataAction, handleTextChangeAction, storeTaskDataAction } from '../../redux/actions/TaskAction';
-
-const useStyles = makeStyles((theme) => ({
-    paper: {
-        position: 'absolute',
-        width: 400,
-        backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
-    },
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-    },
-}));
+import { handleEditTextChangeAction, updateTaskDataAction } from '../../redux/actions/TaskAction'
 
 function rand() {
     return Math.round(Math.random() * 20) - 10;
@@ -38,9 +21,23 @@ function getModalStyle() {
     };
 }
 
-const Tasks = () => {
-    const classes = useStyles();
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        position: 'absolute',
+        width: 400,
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+    },
+}));
 
+const ModalForm = () => {
+    const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
 
@@ -53,22 +50,21 @@ const Tasks = () => {
     };
 
     const dispatch = useDispatch();
-    const tasks = useSelector(state => state.TaskReducer.tasks);
     const tasksForm = useSelector(state => state.TaskReducer.tasksForm);
 
     const handleChange = (name, value) => {
-        dispatch(handleTextChangeAction(name, value));
+        dispatch(handleEditTextChangeAction(name, value));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(storeTaskDataAction(tasksForm));
+        // const taskList = {
+        //     Title: "Husna",
+        //     Priority: "Rahman",
+        // }
+        dispatch(updateTaskDataAction(tasksForm._id, tasksForm))
         handleClose();
     };
-
-    useEffect(() => {
-        dispatch(getTaskDataAction());
-    }, [tasks]);
 
     const body = (
         <div style={modalStyle} className={classes.paper}>
@@ -105,24 +101,16 @@ const Tasks = () => {
     );
 
     return (
-        <>
-            <Box display="flex">
-                <Box width="100%" p={1}>
-                    <Typography variant="h5" color="secondary">My Tasks List</Typography>
-                </Box>
-                <Box p={1}>
-                    <IconButton aria-label="delete" color="secondary" onClick={handleOpen}>
-                        <AddBoxIcon fontSize="large" />
-                    </IconButton>
-                </Box>
-            </Box>
-            <TasksList tasks={tasks} />
-            <div>
-                <Modal open={open}>
-                    {body}
-                </Modal>
-            </div>
-        </>
+        <div>
+            <CreateIcon onClick={handleOpen} />
+            <Modal
+                open={open}
+                onClose={handleClose}
+            >
+                {body}
+            </Modal>
+        </div>
     );
 }
-export default Tasks;
+
+export default ModalForm;

@@ -45,6 +45,15 @@ function TaskReducer(state = initialState, action) {
             }
             break;
 
+        case Types.CHANGE_EDIT_TASK_INPUT:
+            const tasksFormEdit = { ...state.tasksForm };
+            tasksFormEdit[action.payload.name] = action.payload.value;
+            return {
+                ...state,
+                tasksForm:tasksFormEdit
+            }
+            break;
+
         default:
             break;
     }
